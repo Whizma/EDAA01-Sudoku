@@ -91,7 +91,7 @@ public class Solver implements SudokuSolver {
 
 	@Override
 	public int[][] getMatrix() {
-		int[][] temp = new int[9][9];
+		int[][] temp = new int[dim][dim];
 
 		for (int i = 0; i < dim - 1; i++) {
 			for (int j = 0; j < dim - 1; i++) {
