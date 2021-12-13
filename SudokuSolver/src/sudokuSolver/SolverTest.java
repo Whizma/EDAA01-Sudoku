@@ -29,16 +29,21 @@ class SolverTest {
 	
 	@Test
 	void testEmptySolve() {
-		emptyMatrix = new int[9][9];
+		this.emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
 		assertTrue(solver.solve());
 	}
 	
 	@Test
-	void testIsValid() {
+	void testEmptyIsValid() {
 		emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
 		solver.add(0,0,0);
 		assertTrue(solver.isValid());
+	}
+	
+	@Test
+	void testIsValid() {
+		
 	}
 }
