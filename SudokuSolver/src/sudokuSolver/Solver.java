@@ -46,7 +46,6 @@ public class Solver implements SudokuSolver {
 
 				// Check if value can be placed in board
 				if (this.isValid(r, c, i)) {
-					System.out.println(isValid(r,c,i));
 					// Place value to go to next one
 					this.board[r][c] = i;
 
@@ -105,7 +104,7 @@ public class Solver implements SudokuSolver {
 	public boolean isValid() {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
-				if (isValid(r, c, get(r, c))) {
+				if (!isValid(r, c, get(r, c))) {
 					return false;
 				}
 			}

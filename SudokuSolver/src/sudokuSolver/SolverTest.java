@@ -27,14 +27,16 @@ class SolverTest {
 	void testEmptyIsValid() {
 		emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
-		solver.add(0,0,1);
-		solver.add(1, 0, 1);
-		assertFalse(solver.isValid());
+		assertTrue(solver.isValid());
 	}
 	
 	@Test
-	void testIsValid() {
-		
+	void testInvalidIsValid() {
+		emptyMatrix = new int[9][9];
+		solver.setMatrix(emptyMatrix);
+		solver.add(0,0,1);
+		solver.add(0, 1, 1);
+		assertFalse(solver.isValid());
 	}
 	
 	
