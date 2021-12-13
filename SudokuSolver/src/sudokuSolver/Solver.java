@@ -146,9 +146,10 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean checkGrid(int c, int r, int digit) {
-
+		
+		
 		int startRow = (r / 3) * 3;
-		int startCol = (r / 3) * 3;
+		int startCol = (c / 3) * 3;
 
 		for (int i = startRow; i < startRow + 3; i++) {
 			for (int j = startCol; j < startCol + 3; j++) {
