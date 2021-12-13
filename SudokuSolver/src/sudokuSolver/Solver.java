@@ -20,41 +20,26 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean solve(int r, int c) {
-		if(r == 9) {
+		if (r == 8 && c == 9) {
 			return true;
 		}
-		int newRow = 0;
-		int newCol = 0;
-		
-		if(c < 8) {
-			newCol = c +1;
-			newRow = r;
-		} else {
-			newCol = 0;
-			newRow = r+1;
+		if (c == 9) {
+			r++;
+			c = 0;
 		}
-		
-		if(get(r, c) == 0) {
-			for(int i = 1; i < 10; i++) {
-				if(isValid(r, c, i)) {
-					add(r, c, i);
-					
-					if(solve(newRow, newCol)) {
-						return true;
-					} 
-					
-					add(r, c, 0);
-					
-				}
-				
-				
+		if (get(r,c) != 0) {
+			return solve(r,c+1);
+		}
+		for (int i = 1; i < 10; i++) {
+			if (isValid(r,c,i)) {
+				add(r,c,i);
+			if (solve(r,c+1)) {
+				return true;
 			}
-			return false;
-			
+			add(r,c,0);
+			}
 		}
-		
-		return isValid(r, c, get(r,c)) && solve(newRow, newCol);
-		
+		return false;
 	}
 
 	/**
@@ -93,9 +78,9 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public boolean isValid() {
-		for(int r = 0; r < 9; r++) {
-			for(int c = 0; c < 9; c++) {
-				if(isValid(r, c, get(r, c))) {
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
+				if (isValid(r, c, get(r, c))) {
 					return false;
 				}
 			}
@@ -109,10 +94,10 @@ public class Solver implements SudokuSolver {
 		checkArgs(digit);
 		int temp = get(r, c);
 		add(r, c, 0);
-		
-		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c ,digit);
+
+		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c, digit);
 		add(r, c, digit);
-		
+
 		return res;
 	}
 
@@ -133,15 +118,15 @@ public class Solver implements SudokuSolver {
 		}
 		return true;
 	}
-	
+
 	private boolean checkGrid(int c, int r, int digit) {
-		
-		int startRow = (r/3) * 3;
-		int startCol = (r/3) * 3;
-		
-		for(int i = startRow; i < startRow +3; i++) {
-			for(int j = startCol; j < startCol+3; j++) {
-				if(board[i][j] == digit) {
+
+		int startRow = (r / 3) * 3;
+		int startCol = (r / 3) * 3;
+
+		for (int i = startRow; i < startRow + 3; i++) {
+			for (int j = startCol; j < startCol + 3; j++) {
+				if (board[i][j] == digit) {
 					return false;
 				}
 			}
