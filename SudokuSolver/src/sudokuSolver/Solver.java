@@ -8,7 +8,7 @@ import java.util.TreeSet;
 public class Solver implements SudokuSolver {
 
 	private int[][] board;
-	private int dim = 9;	
+	private int dim = 9;
 
 	public Solver() {
 		this.board = new int[dim][dim];
@@ -16,16 +16,32 @@ public class Solver implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		return solve(0,0);
+		return solve(0, 0);
 	}
-	
-	private boolean solve(int r , int c) {
-		if(isValid()) {
-			return true;
+
+	private boolean solve(int r, int c) {
+		
+		if (get(r, c) == 0) {
+			for (int i = 1; i < 10; i++) {
+				add(r, c, i);
+				if ((c == 9 && r ==9) && isValid()) {
+					return true;
+				}
+				if (isValid()) {
+					if (r == 8) {
+						r = 0;
+						c++;
+					} else {
+						r++;
+					}
+					solve(r, c);
+				}
+				if (i == 9) {
+					return false;
+				}
+			}
 		}
-		
-		
-		
+
 		return false;
 	}
 
@@ -40,7 +56,7 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public void add(int row, int col, int digit) {
-		if(checkArgs(row) && checkArgs(col) && checkArgs(digit)) {
+		if (checkArgs(row) && checkArgs(col) && checkArgs(digit)) {
 			board[row][col] = digit;
 			return;
 		}
@@ -58,24 +74,23 @@ public class Solver implements SudokuSolver {
 	public int get(int row, int col) {
 		return board[row][col];
 	}
-	
+
 	/**
 	 * Checks that all filled in digits follows the the sudoku rules.
 	 */
 	@Override
 	public boolean isValid() {
 		Set<String> seen = new HashSet<>();
-	    for (int i=0; i<9; ++i) {
-	        for (int j=0; j<9; ++j) {
-	            int number = board[i][j];
-	            if (number != 0)
-	                if (!seen.add(number + " in row " + i) ||
-	                    !seen.add(number + " in column " + j) ||
-	                    !seen.add(number + " in block " + i/3 + "-" + j/3))
-	                    return false;
-	        }
-	    }
-	    return true;
+		for (int i = 0; i < 9; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				int number = board[i][j];
+				if (number != 0)
+					if (!seen.add(number + " in row " + i) || !seen.add(number + " in column " + j)
+							|| !seen.add(number + " in block " + i / 3 + "-" + j / 3))
+						return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -115,17 +130,17 @@ public class Solver implements SudokuSolver {
 		}
 		return temp;
 	}
-	
+
 	/*
 	 * Return true if valid digit
 	 */
 	private boolean checkArgs(int digit) {
-		if(digit <= 0 || digit > 9) {
+		if (digit <= 0 || digit > 9) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	/*
 	 * Return true if valid
 	 */
