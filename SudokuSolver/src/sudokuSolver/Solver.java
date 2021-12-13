@@ -26,16 +26,11 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public void add(int row, int col, int digit) {
-		if(row < 0 || row > 9) {
-			throw new IllegalArgumentException();
+		if(checkArgs(row) && checkArgs(col) && checkArgs(digit)) {
+			board[row][col] = digit;
+			return;
 		}
-		if(col < 0 || col > 9) {
-			throw new IllegalArgumentException();
-		}
-		if(digit < 0 || digit > 9) {
-			throw new IllegalArgumentException();
-		}
-		board[row][col] = digit;
+		throw new IllegalArgumentException();
 
 	}
 
@@ -75,14 +70,7 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public void setMatrix(int[][] m) {
-		if (m.length == dim - 1 || m[0].length == dim - 1) { // Kollar dimensionerna för m
-			for (int i = 0; i < dim - 1; i++) {
-				for (int j = 0; i < dim - 1; j++) {
-					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 < eller > 9
-						throw new IllegalArgumentException();
-					}
-				}
-			}
+		if (checkArgs(m)) {
 			this.board = m;
 			return;
 		}
@@ -99,6 +87,32 @@ public class Solver implements SudokuSolver {
 			}
 		}
 		return temp;
+	}
+	
+	/*
+	 * Return true if valid digit
+	 */
+	private boolean checkArgs(int digit) {
+		if(digit < 0 || digit > 9) {
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * Return true if valid
+	 */
+	private boolean checkArgs(int[][] m) {
+		if (m.length == dim - 1 || m[0].length == dim - 1) { // kollar dimensionerna för matrisen
+			for (int i = 0; i < dim - 1; i++) {
+				for (int j = 0; i < dim - 1; j++) {
+					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 < eller > 9
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 }
