@@ -20,40 +20,55 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean solve(int r, int c) {
-		if(r == 9) {
+
+		int dim = 9;
+
+		// If at last row, start returning true
+		if (r == dim) {
 			return true;
 		}
-		int newRow = 0;
-		int newCol = 0;
-		
-		if(c < 8) {
-			newCol = c +1;
-			newRow = r;
+
+		// Initialize new row and new column variables
+		int nR, nC;
+
+		// Check if on last column of board
+		if (c < dim - 1) {
+			// If not, go to next column
+			nC = c + 1;
+			nR = r;
 		} else {
-			newCol = 0;
-			newRow = r+1;
+			// If so, restart at next row
+			nC = 0;
+			nR = r + 1;
 		}
-		
-		if(get(r, c) == 0) {
-			for(int i = 1; i < 10; i++) {
-				if(isValid(r, c, i)) {
-					add(r, c, i);
-					
-					if(solve(newRow, newCol)) {
+
+		// Check if value is not set
+		if (this.board[r][c] == 0) {
+
+			// Loop through values [1, 2, ..., dim];
+			for (int i = 1; i < dim + 1; i++) {
+
+				// Check if value can be placed in board
+				if (this.isValid(r, c, i)) {
+					System.out.println(isValid(r,c,i));
+					// Place value to go to next one
+					this.board[r][c] = i;
+
+					// If next one also can be solved, return true
+					if (this.solve(nR, nC)) {
 						return true;
-					} else {
-						add(r, c, 0);
 					}
+
+					// Else, set it back to Empty
+					this.board[r][c] = 0;
 				}
-				
-				
 			}
 			return false;
-			
 		}
-		
-		return isValid(r, c, get(r,c)) && solve(newRow, newCol);
-		
+
+		// If value is set, return if its valid and the next one can be solved
+		return this.isValid(r, c, this.board[r][c]) && this.solve(nR, nC);
+
 	}
 
 	/**

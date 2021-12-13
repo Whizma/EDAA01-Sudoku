@@ -24,13 +24,6 @@ class SolverTest {
 	}
 	
 	@Test
-	void testEmptySolve() {
-//		this.emptyMatrix = new int[9][9];
-//		solver.setMatrix(emptyMatrix);
-		assertTrue(solver.solve());
-	}
-	
-	@Test
 	void testEmptyIsValid() {
 		emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
@@ -43,4 +36,12 @@ class SolverTest {
 	void testIsValid() {
 		
 	}
+	
+	
+	@Test
+	void testEmptySolve() {
+		this.emptyMatrix = new int[9][9];
+		solver.setMatrix(emptyMatrix);
+		assertTrue(solver.solve());
+	} 
 }
