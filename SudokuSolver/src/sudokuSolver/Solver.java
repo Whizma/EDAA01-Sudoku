@@ -23,7 +23,7 @@ public class Solver implements SudokuSolver {
 		if (get(r, c) == 0) {
 			for (int i = 1; i < 10; i++) {
 				add(r, c, i);
-				if ((c == 9 && r ==9) && isValid()) {
+				if ((c == 9 && r == 9) && isValid()) {
 					return true;
 				}
 				if (isValid()) {
@@ -56,11 +56,10 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public void add(int row, int col, int digit) {
-		if (checkArgs(row) && checkArgs(col) && checkArgs(digit)) {
-			board[row][col] = digit;
-			return;
-		}
-		throw new IllegalArgumentException();
+		checkArgs(row);
+		checkArgs(col);
+		checkArgs(digit);
+		board[row][col] = digit;
 
 	}
 
@@ -80,34 +79,60 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public boolean isValid() {
-		Set<String> seen = new HashSet<>();
-		for (int i = 0; i < 9; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				int number = board[i][j];
-				if (number != 0)
-					if (!seen.add(number + " in row " + i) || !seen.add(number + " in column " + j)
-							|| !seen.add(number + " in block " + i / 3 + "-" + j / 3))
-						return false;
+		for(int r = 0; r < 9; r++) {
+			for(int c = 0; c < 9; c++) {
+				if(isValid(r, c, get(r, c))) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean isValid(int c, int r, int digit) {
+		checkArgs(c);
+		checkArgs(r);
+		checkArgs(digit);
+		int temp = get(r, c);
+		add(r, c, 0);
+		
+		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c ,digit);
+		add(r, c, digit);
+		
+		return res;
+	}
+
+	private boolean checkRow(int r, int digit) {
+		for (int n : board[r]) {
+			if (digit == n) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkColumn(int c, int digit) {
+		for (int i = 0; i < 9; i++) {
+			if (board[i][c] == digit) {
+				return false;
 			}
 		}
 		return true;
 	}
 	
-	private boolean isValid(int c, int r, int digit) {
-//		gör kopia på befintligt
-//		lägger till digit på r,c
-//		kör isvaliod()
+	private boolean checkGrid(int c, int r, int digit) {
 		
-		int[][] copy = board;
-		int[][] temp = board;
-		copy[c][r] = digit;
-		setMatrix(copy);
-		if(isValid()) {
-			return true;
-		} else {
-			setMatrix(temp);
-			return false;
+		int startRow = (r/3) * 3;
+		int startCol = (r/3) * 3;
+		
+		for(int i = startRow; i < startRow +3; i++) {
+			for(int j = startCol; j < startCol+3; j++) {
+				if(board[i][j] == digit) {
+					return false;
+				}
+			}
 		}
+		return true;
 	}
 
 	@Override
@@ -129,11 +154,9 @@ public class Solver implements SudokuSolver {
 	 */
 	@Override
 	public void setMatrix(int[][] m) {
-		if (checkArgs(m)) {
-			this.board = m;
-			return;
-		}
-		throw new IllegalArgumentException();
+		checkArgs(m);
+		board = m;
+
 	}
 
 	@Override
@@ -151,27 +174,26 @@ public class Solver implements SudokuSolver {
 	/*
 	 * Return true if valid digit
 	 */
-	private boolean checkArgs(int digit) {
+	private void checkArgs(int digit) {
 		if (digit < 0 || digit > 9) {
-			return false;
+			throw new IllegalArgumentException();
 		}
-		return true;
 	}
 
 	/*
 	 * Return true if valid
 	 */
-	private boolean checkArgs(int[][] m) {
+	private void checkArgs(int[][] m) {
 		if (m.length == dim - 1 || m[0].length == dim - 1) { // kollar dimensionerna för matrisen
 			for (int i = 0; i < dim - 1; i++) {
 				for (int j = 0; i < dim - 1; j++) {
 					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 <= eller > 9
-						return false;
+						throw new IllegalArgumentException();
 					}
 				}
 			}
 		}
-		return true;
+
 	}
 
 }
