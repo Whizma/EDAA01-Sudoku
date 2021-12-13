@@ -20,26 +20,40 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean solve(int r, int c) {
-		if (r == 8 && c == 9) {
+		if(r == 9) {
 			return true;
 		}
-		if (c == 9) {
-			r++;
-			c = 0;
+		int newRow = 0;
+		int newCol = 0;
+		
+		if(c < 8) {
+			newCol = c +1;
+			newRow = r;
+		} else {
+			newCol = 0;
+			newRow = r+1;
 		}
-		if (get(r,c) != 0) {
-			return solve(r,c+1);
-		}
-		for (int i = 1; i < 10; i++) {
-			if (isValid(r,c,i)) {
-				add(r,c,i);
-			if (solve(r,c+1)) {
-				return true;
+		
+		if(get(r, c) == 0) {
+			for(int i = 1; i < 10; i++) {
+				if(isValid(r, c, i)) {
+					add(r, c, i);
+					
+					if(solve(newRow, newCol)) {
+						return true;
+					} else {
+						add(r, c, 0);
+					}
+				}
+				
+				
 			}
-			add(r,c,0);
-			}
+			return false;
+			
 		}
-		return false;
+		
+		return isValid(r, c, get(r,c)) && solve(newRow, newCol);
+		
 	}
 
 	/**
@@ -96,8 +110,9 @@ public class Solver implements SudokuSolver {
 		add(r, c, 0);
 
 		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c, digit);
-		add(r, c, digit);
-
+		
+		add(r, c, temp);
+	
 		return res;
 	}
 
