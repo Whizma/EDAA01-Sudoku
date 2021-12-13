@@ -25,8 +25,8 @@ class SolverTest {
 	
 	@Test
 	void testEmptySolve() {
-		this.emptyMatrix = new int[9][9];
-		solver.setMatrix(emptyMatrix);
+//		this.emptyMatrix = new int[9][9];
+//		solver.setMatrix(emptyMatrix);
 		assertTrue(solver.solve());
 	}
 	
