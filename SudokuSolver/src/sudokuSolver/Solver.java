@@ -49,13 +49,12 @@ public class Solver implements SudokuSolver {
 	public int get(int row, int col) {
 		return board[row][col];
 	}
-
+	
+	/**
+	 * Checks that all filled in digits follows the the sudoku rules.
+	 */
 	@Override
 	public boolean isValid() {
-		return true;
-	}
-	
-	public boolean isValidSudoku(int[][] board) {
 		Set<String> seen = new HashSet<>();
 	    for (int i=0; i<9; ++i) {
 	        for (int j=0; j<9; ++j) {
