@@ -92,6 +92,23 @@ public class Solver implements SudokuSolver {
 		}
 		return true;
 	}
+	
+	private boolean isValid(int c, int r, int digit) {
+//		gör kopia på befintligt
+//		lägger till digit på r,c
+//		kör isvaliod()
+		
+		int[][] copy = board;
+		int[][] temp = board;
+		copy[c][r] = digit;
+		setMatrix(copy);
+		if(isValid()) {
+			return true;
+		} else {
+			setMatrix(temp);
+			return false;
+		}
+	}
 
 	@Override
 	public void clear() { // Sätter alla värden i matrisen till 0
