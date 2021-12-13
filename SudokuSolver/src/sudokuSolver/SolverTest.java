@@ -34,8 +34,9 @@ class SolverTest {
 	void testEmptyIsValid() {
 		emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
-		solver.add(0,0,0);
-		assertTrue(solver.isValid());
+		solver.add(0,0,1);
+		solver.add(1, 0, 1);
+		assertFalse(solver.isValid());
 	}
 	
 	@Test
