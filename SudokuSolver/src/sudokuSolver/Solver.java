@@ -1,9 +1,11 @@
 package sudokuSolver;
 
+import java.util.Arrays;
 
 public class Solver implements SudokuSolver {
 
 	private int[][] board;
+	private int[][] solvedBoard;
 	private int dim = 9;
 
 	public Solver() {
@@ -16,7 +18,7 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean solve(int r, int c) {
-
+		solvedBoard = board;
 		int dim = 9;
 
 		// If at last row, start returning true
@@ -120,9 +122,9 @@ public class Solver implements SudokuSolver {
 		add(r, c, 0);
 
 		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c, digit);
-		
+
 		add(r, c, temp);
-	
+
 		return res;
 	}
 
@@ -145,8 +147,7 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean checkGrid(int c, int r, int digit) {
-		
-		
+
 		int startRow = (r / 3) * 3;
 		int startCol = (c / 3) * 3;
 
@@ -218,7 +219,5 @@ public class Solver implements SudokuSolver {
 				}
 			}
 		}
-
 	}
-
 }
