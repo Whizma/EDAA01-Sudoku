@@ -135,7 +135,7 @@ public class Solver implements SudokuSolver {
 	 * Return true if valid digit
 	 */
 	private boolean checkArgs(int digit) {
-		if (digit <= 0 || digit > 9) {
+		if (digit < 0 || digit > 9) {
 			return false;
 		}
 		return true;
@@ -148,7 +148,7 @@ public class Solver implements SudokuSolver {
 		if (m.length == dim - 1 || m[0].length == dim - 1) { // kollar dimensionerna för matrisen
 			for (int i = 0; i < dim - 1; i++) {
 				for (int j = 0; i < dim - 1; j++) {
-					if (m[i][j] <= 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 <= eller > 9
+					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 <= eller > 9
 						return false;
 					}
 				}
