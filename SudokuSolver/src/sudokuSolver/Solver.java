@@ -41,9 +41,10 @@ public class Solver implements SudokuSolver {
 					
 					if(solve(newRow, newCol)) {
 						return true;
-					} else {
-						add(r, c, 0);
-					}
+					} 
+					
+					add(r, c, 0);
+					
 				}
 				
 				
@@ -82,6 +83,8 @@ public class Solver implements SudokuSolver {
 
 	@Override
 	public int get(int row, int col) {
+		checkArgs(row);
+		checkArgs(col);
 		return board[row][col];
 	}
 
