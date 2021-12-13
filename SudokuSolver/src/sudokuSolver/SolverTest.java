@@ -14,6 +14,31 @@ import org.junit.jupiter.api.Test;
  *
  */
 class SolverTest {
+	Solver solver;
+	private int[][] emptyMatrix;
 
-
+	@BeforeEach
+	void setUp() throws Exception {
+		solver = new Solver();
+	} 
+	
+	@AfterEach
+	void tearDown() throws Exception {
+		solver = null;
+	}
+	
+	@Test
+	void testEmptySolve() {
+		emptyMatrix = new int[9][9];
+		solver.setMatrix(emptyMatrix);
+		assertTrue(solver.solve());
+	}
+	
+	@Test
+	void testIsValid() {
+		emptyMatrix = new int[9][9];
+		solver.setMatrix(emptyMatrix);
+		solver.add(1,1,1);
+		assertTrue(solver.isValid());
+	}
 }

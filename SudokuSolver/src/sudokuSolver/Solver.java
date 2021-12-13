@@ -20,26 +20,8 @@ public class Solver implements SudokuSolver {
 	}
 
 	private boolean solve(int r, int c) {
-		
-		if (get(r, c) == 0) {
-			for (int i = 1; i < 10; i++) {
-				add(r, c, i);
-				if ((c == 9 && r ==9) && isValid()) {
-					return true;
-				}
-				if (isValid()) {
-					if (r == 8) {
-						r = 0;
-						c++;
-					} else {
-						r++;
-					}
-					solve(r, c);
-				}
-				if (i == 9) {
-					return false;
-				}
-			}
+		if (!isValid()) {
+			return false;
 		}
 
 		return false;
