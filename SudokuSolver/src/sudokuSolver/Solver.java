@@ -16,7 +16,16 @@ public class Solver implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		// TODO Auto-generated method stub
+		return solve(0,0);
+	}
+	
+	private boolean solve(int r , int c) {
+		if(isValid()) {
+			return true;
+		}
+		
+		
+		
 		return false;
 	}
 
@@ -59,7 +68,7 @@ public class Solver implements SudokuSolver {
 	    for (int i=0; i<9; ++i) {
 	        for (int j=0; j<9; ++j) {
 	            int number = board[i][j];
-	            if (number != '.')
+	            if (number != 0)
 	                if (!seen.add(number + " in row " + i) ||
 	                    !seen.add(number + " in column " + j) ||
 	                    !seen.add(number + " in block " + i/3 + "-" + j/3))
