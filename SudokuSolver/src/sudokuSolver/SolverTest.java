@@ -38,7 +38,7 @@ class SolverTest {
 	void testIsValid() {
 		emptyMatrix = new int[9][9];
 		solver.setMatrix(emptyMatrix);
-		solver.add(1,1,1);
+		solver.add(0,0,0);
 		assertTrue(solver.isValid());
 	}
 }
