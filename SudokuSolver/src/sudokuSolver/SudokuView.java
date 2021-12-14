@@ -11,8 +11,7 @@ import java.awt.event.FocusListener;
 import javax.swing.*;
 
 public class SudokuView {
-	// Size of the inputs
-	final static int INPUT_SIZE = 50;
+	
 
 	private SudokuSolver solver;
 	private JPanel sudokuPanel;
@@ -25,12 +24,10 @@ public class SudokuView {
 	 */
 
 	public SudokuView(SudokuSolver s) {
-		int dim = 9;
-		int size = dim * 100;
 		this.solver = s;
-		this.fields = new JTextField[dim][dim];
+		this.fields = new JTextField[9][9];
 
-		SwingUtilities.invokeLater(() -> createWindow("Sudoko", size, size));
+		SwingUtilities.invokeLater(() -> createWindow("Sudoko", 900, 900));
 	}
 
 	/**
@@ -43,7 +40,6 @@ public class SudokuView {
 
 	private void createWindow(String title, int width, int height) {
 
-		int dim = 9;
 
 		JFrame frame = new JFrame(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,9 +48,9 @@ public class SudokuView {
 
 		this.sudokuPanel = new JPanel();
 
-		sudokuPanel.setLayout(new GridLayout(dim, dim));
+		sudokuPanel.setLayout(new GridLayout(9, 9));
 
-		this.buildBoard(dim, true, false);
+		this.buildBoard(true, false);
 
 		JButton solveBtn = new JButton("Solve");
 		JButton clearBtn = new JButton("Clear");
@@ -65,7 +61,7 @@ public class SudokuView {
 		solveBtn.addActionListener((e) -> {
 			// If solved, rebuild the board
 			if (solver.solve()) {
-				this.rebuildBoard(dim);
+				this.rebuildBoard();
 				JOptionPane.showMessageDialog(pane, "The sudoku has been solved");
 			} else {
 				JOptionPane.showMessageDialog(pane, "The sudoku could not be solved");
@@ -76,7 +72,7 @@ public class SudokuView {
 		 * Clear all values of board
 		 */
 		clearBtn.addActionListener(e -> {
-			this.clearBoard(dim);
+			this.clearBoard();
 		});
 
 		// Add everything to view
@@ -96,45 +92,42 @@ public class SudokuView {
 	/**
 	 * Helper method to rebuild board
 	 * 
-	 * @param dim Dimenson of the board
 	 */
 
-	private void rebuildBoard(int dim) {
-		this.buildBoard(dim, false, false);
+	private void rebuildBoard() {
+		this.buildBoard(false, false);
 	}
 
 	/**
 	 * Helper method to clear board
 	 * 
-	 * @param dim Dimenson of the board
 	 */
 
-	private void clearBoard(int dim) {
-		this.buildBoard(dim, false, true);
+	private void clearBoard() {
+		this.buildBoard(false, true);
 	}
 
 	/**
 	 * Builds or rebuilds the board with the new values
 	 * 
-	 * @param dim          Dimension of the board
 	 * @param initialBuild Defines whether or not this is the first build
 	 * @param clear        If true, all values will be set to 0
 	 */
 
-	private void buildBoard(int dim, boolean initialBuild, boolean clear) {
+	private void buildBoard(boolean initialBuild, boolean clear) {
 		if (clear) {
 			this.solver.clear();
 		}
 
-		for (int r = 0; r < dim; r++) {
-			for (int c = 0; c < dim; c++) {
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
 				int nbr = this.solver.get(r, c);
 				String val = nbr > 0 ? String.valueOf(nbr) : "";
 				JTextField field = new JTextField();
 
 				// If first build, set attributes and add them to the panel
 				if (initialBuild) {
-					this.setFieldAttributes(field, r, c, dim);
+					this.setFieldAttributes(field, r, c);
 					this.sudokuPanel.add(field);
 					fields[r][c] = field;
 				}
@@ -150,15 +143,14 @@ public class SudokuView {
 	 * @param field The field to update
 	 * @param r     The row of the value for the field
 	 * @param c     The column of the value for the field
-	 * @param dim   Dimension of the board
 	 */
 
-	private void setFieldAttributes(JTextField field, int r, int c, int dim) {
-		Color bgColor = this.squareBackground((int) Math.sqrt(dim), r, c);
+	private void setFieldAttributes(JTextField field, int r, int c) {
+		Color bgColor = this.squareBackground(r, c);
 
 		field.setBackground(bgColor);
 
-		field.setPreferredSize(new Dimension(INPUT_SIZE, INPUT_SIZE));
+		field.setPreferredSize(new Dimension(50, 50));
 		field.setHorizontalAlignment(JTextField.CENTER);
 
 		field.addFocusListener(new FocusListener() {
@@ -204,17 +196,16 @@ public class SudokuView {
 	/**
 	 * Determines what the background of the JTextField should be
 	 * 
-	 * @param size The size of the grids, ex. 3x3 for a 9x9 board.
 	 * @param row  The row of the current JTextField
 	 * @param col  The column the current JTextField
 	 * @return The background Color
 	 */
 
-	private Color squareBackground(int size, int row, int col) {
-		int gridRow = (row / size) * size;
-		int gridCol = (col / size) * size;
+	private Color squareBackground(int row, int col) {
+		int gridRow = (row / 3) * 3;
+		int gridCol = (col / 3) * 3;
 
-		if (gridRow % 2 == 0 && gridCol % 2 == 0 || (gridRow == size && gridCol == size)) {
+		if (gridRow % 2 == 0 && gridCol % 2 == 0 || (gridRow == 3 && gridCol == 3)) {
 			return SudokuColors.ACCENT;
 		}
 
