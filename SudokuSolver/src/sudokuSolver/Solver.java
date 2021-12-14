@@ -223,168 +223,31 @@ public class Solver implements SudokuSolver {
 					this.board[r][c] = i;
 
 					// If next one also can be solved, return true
-<<<<<<< HEAD
 					if (this.solve(nR, nC)) {
-=======
-					if (solve(nextRow, nextColumn)) {
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 						return true;
 					}
-<<<<<<< HEAD
 
 					// Else, set it back to Empty
 					this.board[r][c] = EMPTY;
-=======
-					else {
-						// Else, set it back to Empty
-						add(r,c,0);
-						return false;
-					}
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 				}
 			}
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 			return false;
 		}
 
 		// If value is set, return if its valid and the next one can be solved
-<<<<<<< HEAD
 		return this.isValid(r, c, this.board[r][c]) && this.solve(nR, nC);
-=======
-		//return isValid(r, c, board[r][c]) && solve(nR, nC);
-		return isValid(r,c, get(r,c)) && solve(nextRow, nextColumn);
-
-	}
-
-	/**
-	 * Puts digit in the box row, col.
-	 * 
-	 * @param row   The row
-	 * @param col   The column
-	 * @param digit The digit to insert in box row, col
-	 * @throws IllegalArgumentException if row, col or digit is outside the range
-	 *                                  [0..9]
-	 */
-	@Override
-	public void add(int row, int col, int digit) {
-		checkArgs(row);
-		checkArgs(col);
-		checkArgs(digit);
-		board[row][col] = digit;
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void clear() {
 		// Loop through all values and set them to EMPTY
 		for (int i = 0; i < this.board.length; i++) {
 			for (int j = 0; j < this.board[i].length; j++) {
 				this.board[i][j] = EMPTY;
-=======
-	public void remove(int row, int col) {
-		board[row][col] = 0;
-
-	}
-
-	@Override
-	public int get(int row, int col) {
-		checkArgs(row);
-		checkArgs(col);
-		return board[row][col];
-	}
-	
-	public boolean isValid() {
-		for (int r = 0; r < 9; r++) {
-			for (int c = 0; c < 9; c++) {
-				if (!isValid(r, c, get(r, c))) {
-					return false;
-				}
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 			}
 		}
-<<<<<<< HEAD
-=======
-		return true;
-	}
-
-	/**
-	 * Checks that all filled in digits follows the the sudoku rules.
-	 */
-	private boolean isValid(int c, int r, int digit) {
-		checkArgs(c);
-		checkArgs(r);
-		checkArgs(digit);
-		int temp = get(r, c);
-		add(r, c, 0);
-		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c, digit);
-		if (digit == 0) {
-			res = true;
-		}
-		add(r, c, temp);
-
-		return res;
-	}
-
-	private boolean checkRow(int r, int digit) {
-		for (int n : board[r]) {
-			if (digit == n) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean checkColumn(int c, int digit) {
-		for (int i = 0; i < 9; i++) {
-			if (board[i][c] == digit) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean checkGrid(int c, int r, int digit) {
-
-		int startRow = (r / 3) * 3;
-		int startCol = (c / 3) * 3;
-
-		for (int i = startRow; i < startRow + 3; i++) {
-			for (int j = startCol; j < startCol + 3; j++) {
-				if (board[i][j] == digit) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public void clear() { // Sätter alla värden i matrisen till 0
-		for (int i = 0; i < dim - 1; i++) {
-			for (int j = 0; i < dim - 1; i++) {
-				board[i][j] = 0;
-			}
-		}
-
-	}
-
-	/**
-	 * Fills the grid with the digits in m. The digit 0 represents an empty box.
-	 * 
-	 * @param m the matrix with the digits to insert
-	 * @throws IllegalArgumentException if m has the wrong dimension or contains
-	 *                                  values outside the range [0..9]
-	 */
-	@Override
-	public void setMatrix(int[][] m) {
-		checkArgs(m);
-		board = m;
->>>>>>> branch 'main' of https://gitlab.com/ErikMalmgren/sudokuprojekt.git
 
 	}
 
