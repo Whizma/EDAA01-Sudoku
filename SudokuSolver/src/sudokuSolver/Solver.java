@@ -62,11 +62,12 @@ public class Solver implements SudokuSolver {
 					}
 				}
 			}
+			return false;
 		}
 
 		// If value is set, return if its valid and the next one can be solved
 		//return isValid(r, c, board[r][c]) && solve(nR, nC);
-		return isValid(r,c, get(r,c)) ? solve(nextRow,nextColumn):false;
+		return isValid(r,c, get(r,c)) && solve(nextRow, nextColumn);
 
 	}
 
@@ -100,11 +101,7 @@ public class Solver implements SudokuSolver {
 		checkArgs(col);
 		return board[row][col];
 	}
-
-	/**
-	 * Checks that all filled in digits follows the the sudoku rules.
-	 */
-	@Override
+	
 	public boolean isValid() {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
@@ -116,6 +113,9 @@ public class Solver implements SudokuSolver {
 		return true;
 	}
 
+	/**
+	 * Checks that all filled in digits follows the the sudoku rules.
+	 */
 	private boolean isValid(int c, int r, int digit) {
 		checkArgs(c);
 		checkArgs(r);
