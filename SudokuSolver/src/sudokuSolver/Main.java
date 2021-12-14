@@ -3,9 +3,8 @@ package sudokuSolver;
 public class Main {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		Solver solve = new Solver();
-	/*	int[][] matrix = { { 0, 0, 8, 0, 0, 9, 0, 6, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 5 },
+		/*	int[][] matrix = { { 0, 0, 8, 0, 0, 9, 0, 6, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 5 },
 				{ 1, 0, 2, 5, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 1, 0, 0, 9, 0 }, { 0, 5, 0, 0, 0, 0, 6, 0, 0 },
 				{ 6, 0, 0, 0, 0, 0, 0, 2, 8 }, { 4, 1, 0, 6, 0, 8, 0, 0, 0 }, { 8, 6, 0, 0, 0, 0, 1, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 4, 0, 0 } };
@@ -17,9 +16,9 @@ public class Main {
 		solve.solve();
 		System.out.println(solve.isValid());
 		System.out.println(solve.print());
-=======
+
 //		Solver solve = new Solver();
-//	/*	int[][] matrix = { { 0, 0, 8, 0, 0, 9, 0, 6, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 5 },
+//		int[][] matrix = { { 0, 0, 8, 0, 0, 9, 0, 6, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 5 },
 //				{ 1, 0, 2, 5, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 1, 0, 0, 9, 0 }, { 0, 5, 0, 0, 0, 0, 6, 0, 0 },
 //				{ 6, 0, 0, 0, 0, 0, 0, 2, 8 }, { 4, 1, 0, 6, 0, 8, 0, 0, 0 }, { 8, 6, 0, 0, 0, 0, 1, 0, 0 },
 //				{ 0, 0, 0, 0, 0, 0, 4, 0, 0 } };
@@ -30,10 +29,9 @@ public class Main {
 //		solve.solve();
 //		System.out.print(solve.print());
 		
-		SudokuSolver solver = new Solver();
+//		SudokuSolver solver = new Solver();
 		
-		new SudokuView(solver);
->>>>>>> 16ad723e2acb02575fbb07d20a026e7708b655a2
+//		new SudokuView(solver);
 	}
 
 }

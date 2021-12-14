@@ -52,15 +52,16 @@ public class Solver implements SudokuSolver {
 					add(r,c,i);
 
 					// If next one also can be solved, return true
-					if (this.solve(nextRow, nextColumn)) {
+					if (solve(nextRow, nextColumn)) {
 						return true;
 					}
-
+					else {
+						// Else, set it back to Empty
+						add(r,c,0);
+						return false;
+					}
 				}
 			}
-			// Else, set it back to Empty
-			add(r,c,0);
-			return false;
 		}
 
 		// If value is set, return if its valid and the next one can be solved
