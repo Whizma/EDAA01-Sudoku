@@ -54,7 +54,6 @@ class SudokuTests {
 	@Test
 	void testPredefinedBoard() {
 		this.solver.setMatrix(this.testBoard);
-
 		assertTrue(this.solver.solve());
 	}
 
