@@ -27,44 +27,45 @@ public class Solver implements SudokuSolver {
 		}
 
 		// Initialize new row and new column variables
-		int nR, nC;
+		int nextRow, nextColumn;
 
 		// Check if on last column of board
 		if (c < dim - 1) {
 			// If not, go to next column
-			nC = c + 1;
-			nR = r;
+			nextColumn = c + 1;
+			nextRow = r;
 		} else {
 			// If so, restart at next row
-			nC = 0;
-			nR = r + 1;
+			nextColumn = 0;
+			nextRow = r + 1;
 		}
 
 		// Check if value is not set
-		if (this.board[r][c] == 0) {
+		if (get(r,c) == 0) {
 
 			// Loop through values [1, 2, ..., dim];
 			for (int i = 1; i < dim + 1; i++) {
 
 				// Check if value can be placed in board
-				if (this.isValid(r, c, i)) {
+				if (isValid(r, c, i)) {
 					// Place value to go to next one
-					this.board[r][c] = i;
+					add(r,c,i);
 
 					// If next one also can be solved, return true
-					if (this.solve(nR, nC)) {
+					if (this.solve(nextRow, nextColumn)) {
 						return true;
 					}
 
-					// Else, set it back to Empty
-					this.board[r][c] = 0;
 				}
 			}
+			// Else, set it back to Empty
+			add(r,c,0);
 			return false;
 		}
 
 		// If value is set, return if its valid and the next one can be solved
-		return this.isValid(r, c, this.board[r][c]) && this.solve(nR, nC);
+		//return isValid(r, c, board[r][c]) && solve(nR, nC);
+		return isValid(r,c, get(r,c)) ? solve(nextRow,nextColumn):false;
 
 	}
 
@@ -120,9 +121,10 @@ public class Solver implements SudokuSolver {
 		checkArgs(digit);
 		int temp = get(r, c);
 		add(r, c, 0);
-
 		boolean res = checkRow(r, digit) && checkColumn(c, digit) && checkGrid(r, c, digit);
-
+		if (digit == 0) {
+			res = true;
+		}
 		add(r, c, temp);
 
 		return res;
@@ -207,13 +209,14 @@ public class Solver implements SudokuSolver {
 		if (m.length == dim - 1 || m[0].length == dim - 1) { // kollar dimensionerna för matrisen
 			for (int i = 0; i < dim - 1; i++) {
 				for (int j = 0; i < dim - 1; j++) {
-					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 <= eller > 9
+					if (m[i][j] < 0 || m[i][j] > 9) { // Kollar alla värden i m så att ingen är 0 < eller > 9
 						throw new IllegalArgumentException();
 					}
 				}
 			}
 		}
 	}
+
 	public String print() {
 		return Arrays.deepToString(getMatrix());
 	}

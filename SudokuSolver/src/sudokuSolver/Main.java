@@ -12,8 +12,10 @@ public class Main {
 		System.out.println(solve.solve()); */
 		int[][] emptyMatrix = new int[9][9];
 		solve.setMatrix(emptyMatrix);
+		System.out.println(solve.isValid());
 		solve.solve();
-		System.out.print(solve.print());
+		System.out.println(solve.isValid());
+		System.out.println(solve.print());
 	}
 
 }
