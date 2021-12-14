@@ -34,7 +34,7 @@ public class Solver implements SudokuSolver {
 	private boolean isValid(int r, int c, int nbr) {
 		checkArgs(r, c, nbr);
 
-		// Temporarily remove value so it doesnt clash in checks
+		// Temporarily remove value so it doesn't clash in checks
 		int v = this.board[r][c];
 		this.board[r][c] = 0;
 
