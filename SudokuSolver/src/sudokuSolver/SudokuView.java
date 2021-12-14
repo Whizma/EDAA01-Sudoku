@@ -11,17 +11,10 @@ import java.awt.event.FocusListener;
 import javax.swing.*;
 
 public class SudokuView {
-	
 
 	private SudokuSolver solver;
 	private JPanel sudokuPanel;
 	private JTextField[][] fields;
-
-	/**
-	 * Constructor, initializes basic attributes
-	 * 
-	 * @param s SudokuSolver object
-	 */
 
 	public SudokuView(SudokuSolver s) {
 		this.solver = s;
@@ -31,15 +24,10 @@ public class SudokuView {
 	}
 
 	/**
-	 * Creates the view and initalizes all helper methods
-	 * 
-	 * @param title  Title of the Window
-	 * @param width  Width of the window
-	 * @param height Height of the window
+	 * Skapar vyn och alla hjälpmetoder
 	 */
 
 	private void createWindow(String title, int width, int height) {
-
 
 		JFrame frame = new JFrame(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,10 +44,10 @@ public class SudokuView {
 		JButton clearBtn = new JButton("Clear");
 
 		/**
-		 * Listen to when solve button is pressed
+		 * Lyssnar efter knapptryck
 		 */
 		solveBtn.addActionListener((e) -> {
-			// If solved, rebuild the board
+			// Om lösning, visa den
 			if (solver.solve()) {
 				this.rebuildBoard();
 				JOptionPane.showMessageDialog(pane, "The sudoku has been solved");
@@ -69,13 +57,13 @@ public class SudokuView {
 		});
 
 		/**
-		 * Clear all values of board
+		 * Rensar boardet på värden
 		 */
 		clearBtn.addActionListener(e -> {
 			this.clearBoard();
 		});
 
-		// Add everything to view
+		// Lägg till allt i vyn
 
 		JPanel controlsPanel = new JPanel();
 
@@ -90,8 +78,7 @@ public class SudokuView {
 	}
 
 	/**
-	 * Helper method to rebuild board
-	 * 
+	 * Hjälpmetod för att bygga om brädet
 	 */
 
 	private void rebuildBoard() {
@@ -99,8 +86,7 @@ public class SudokuView {
 	}
 
 	/**
-	 * Helper method to clear board
-	 * 
+	 * Hjälpmetod för att rensa brädet
 	 */
 
 	private void clearBoard() {
@@ -108,10 +94,7 @@ public class SudokuView {
 	}
 
 	/**
-	 * Builds or rebuilds the board with the new values
-	 * 
-	 * @param initialBuild Defines whether or not this is the first build
-	 * @param clear        If true, all values will be set to 0
+	 * Bygger eller bygger om brädet med nya värden
 	 */
 
 	private void buildBoard(boolean initialBuild, boolean clear) {
@@ -138,11 +121,7 @@ public class SudokuView {
 	}
 
 	/**
-	 * Helper method to set correct attributes to JTextFields
-	 * 
-	 * @param field The field to update
-	 * @param r     The row of the value for the field
-	 * @param c     The column of the value for the field
+	 * Hjälpmetod för att sätta rätt värden till attributen i JTextfields
 	 */
 
 	private void setFieldAttributes(JTextField field, int r, int c) {
@@ -155,27 +134,27 @@ public class SudokuView {
 
 		field.addFocusListener(new FocusListener() {
 
-			// Set background on hover
+			// Färg vid hover
 			@Override
 			public void focusGained(FocusEvent e) {
 				field.setBackground(SudokuColors.HOVER);
 
 			}
-			
-			// Set value and revert background on blur 
+
+			// Sätt värdet och ändra tillbaka färgen
 			@Override
 			public void focusLost(FocusEvent e) {
 				field.setBackground(bgColor);
 
 				String t = field.getText();
 
-				// Catch-block catches both IllegalArgumentException from solver.setNumber
-				// as well as NumberFormatException from Integer.parseInt.
-				// If invalid, set the number back to 0.
+				// Catchblocket fångar IllegalArgumentException från solver.add och
+				// NumberFormatException från Integer.parseInt.
+				// Om invalid, ändra tillbaka till 0
 				try {
 					int nbr = Integer.parseInt(t);
 
-					// Simple way to set the number back to 0 and hide it from the view
+					// Ändrar tillbaka värdet till 0 och gömmer det för användaren
 					if (nbr <= 0) {
 						throw new IllegalArgumentException();
 					}
@@ -194,11 +173,7 @@ public class SudokuView {
 	}
 
 	/**
-	 * Determines what the background of the JTextField should be
-	 * 
-	 * @param row  The row of the current JTextField
-	 * @param col  The column the current JTextField
-	 * @return The background Color
+	 * Bakgrundsfärger för GUI
 	 */
 
 	private Color squareBackground(int row, int col) {

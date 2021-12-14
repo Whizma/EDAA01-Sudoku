@@ -112,7 +112,7 @@ public class Solver implements SudokuSolver {
 		if (r == 9) {
 			return true;
 		}
-		
+
 		// Variabler för nästa row och kolumn
 		int nextRow, nextColumn;
 
