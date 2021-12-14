@@ -2,40 +2,10 @@ package sudokuSolver;
 
 public class Solver implements SudokuSolver {
 
-	/**
-	 * Constants
-	 */
-	
-	private final static int EMPTY = 0;
-	private final static int DEFAULT_SIZE = 9;
-	private final static int[][] TEST_BOARD = { { 0, 0, 8, 0, 0, 9, 0, 6, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 5 },
-			{ 1, 0, 2, 5, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 1, 0, 0, 9, 0 }, { 0, 5, 0, 0, 0, 0, 6, 0, 0 },
-			{ 6, 0, 0, 0, 0, 0, 0, 2, 8 }, { 4, 1, 0, 6, 0, 8, 0, 0, 0 }, { 8, 6, 0, 0, 0, 0, 1, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 4, 0, 0 } };
-
-	/**
-	 * Attribute
-	 */
-	
 	private int[][] board;
 
 	public Solver() {
-		// Overloading with default 9x9 grid size
-		this(DEFAULT_SIZE);
-	}
-
-	public Solver(int size) {
-
-		// Uncomment line 22 and comment out lines 24 - 31 to use the test board
-		// this.board = TEST_BOARD;
-
-		this.board = new int[size][size];
-
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				board[i][j] = EMPTY;
-			}
-		}
+		board = new int[9][9];
 	}
 
 	@Override
@@ -57,17 +27,16 @@ public class Solver implements SudokuSolver {
 	public void remove(int r, int c) {
 		checkArgs(r, c);
 
-		this.board[r][c] = EMPTY;
+		this.board[r][c] = 0;
 
 	}
 
-	
 	private boolean isValid(int r, int c, int nbr) {
 		checkArgs(r, c, nbr);
 
 		// Temporarily remove value so it doesnt clash in checks
 		int v = this.board[r][c];
-		this.board[r][c] = EMPTY;
+		this.board[r][c] = 0;
 
 		// Check if nbr is valid in all ways
 		boolean result = this.checkRow(r, nbr) && this.checkColumn(c, nbr) && this.checkGrid(r, c, nbr);
@@ -77,15 +46,13 @@ public class Solver implements SudokuSolver {
 
 		return result;
 	}
-	
+
 	/**
 	 * Checks if nbr is valid in the row
-	 * @param r
-	 * The row to check
-	 * @param c
-	 * The column to check
-	 * @param nbr
-	 * The number to verify
+	 * 
+	 * @param r   The row to check
+	 * @param c   The column to check
+	 * @param nbr The number to verify
 	 * @return true if valid
 	 */
 
@@ -101,15 +68,13 @@ public class Solver implements SudokuSolver {
 
 		return true;
 	}
-	
+
 	/**
 	 * Checks if nbr is valid in the column
-	 * @param r
-	 * The row to check
-	 * @param c
-	 * The column to check
-	 * @param nbr
-	 * The number to verify
+	 * 
+	 * @param r   The row to check
+	 * @param c   The column to check
+	 * @param nbr The number to verify
 	 * @return true if valid
 	 */
 
@@ -126,30 +91,25 @@ public class Solver implements SudokuSolver {
 
 		return true;
 	}
-	
+
 	/**
 	 * Checks if nbr is valid in the grid
-	 * @param r
-	 * The row to check
-	 * @param c
-	 * The column to check
-	 * @param nbr
-	 * The number to verify
+	 * 
+	 * @param r   The row to check
+	 * @param c   The column to check
+	 * @param nbr The number to verify
 	 * @return true if valid
 	 */
 
 	private boolean checkGrid(int r, int c, int nbr) {
 
-		// Calculate grid size, ex. 3 for 9x9, 4 for 16x16 etc.
-		int gSize = (int) Math.sqrt(this.board.length);
-
-		// Get first row and column of NxN grid
-		int startRow = (r / gSize) * gSize;
-		int startCol = (c / gSize) * gSize;
+		// Get first row and column of grid
+		int startRow = (r / 3) * 3;
+		int startCol = (c / 3) * 3;
 
 		// Loop through all rows and columns of grid
-		for (int i = startRow; i < startRow + gSize; i++) {
-			for (int j = startCol; j < startCol + gSize; j++) {
+		for (int i = startRow; i < startRow + 3; i++) {
+			for (int j = startCol; j < startCol + 3; j++) {
 				// If nbr exists anywhere else in the grid, it can't be solved
 				if (this.board[i][j] == nbr) {
 					return false;
@@ -181,18 +141,15 @@ public class Solver implements SudokuSolver {
 
 	/**
 	 * Private helper method to recursivley try to solve the sudoku
-	 * @param r 
-	 * The row that is being tested
-	 * @param c
-	 * The column that is being tested
+	 * 
+	 * @param r The row that is being tested
+	 * @param c The column that is being tested
 	 * @return true if the sudoku is solved
 	 */
 	private boolean solve(int r, int c) {
 
-		int dim = 9;
-
 		// If at last row, start returning true
-		if (r == dim) {
+		if (r == 9) {
 			return true;
 		}
 
@@ -200,7 +157,7 @@ public class Solver implements SudokuSolver {
 		int nR, nC;
 
 		// Check if on last column of board
-		if (c < dim - 1) {
+		if (c < 9 - 1) {
 			// If not, go to next column
 			nC = c + 1;
 			nR = r;
@@ -211,10 +168,10 @@ public class Solver implements SudokuSolver {
 		}
 
 		// Check if value is not set
-		if (this.board[r][c] == EMPTY) {
+		if (this.board[r][c] == 0) {
 
 			// Loop through values [1, 2, ..., dim];
-			for (int i = 1; i < dim + 1; i++) {
+			for (int i = 1; i < 9 + 1; i++) {
 
 				// Check if value can be placed in board
 				if (this.isValid(r, c, i)) {
@@ -228,7 +185,7 @@ public class Solver implements SudokuSolver {
 					}
 
 					// Else, set it back to Empty
-					this.board[r][c] = EMPTY;
+					this.board[r][c] = 0;
 				}
 			}
 
@@ -245,7 +202,7 @@ public class Solver implements SudokuSolver {
 		// Loop through all values and set them to EMPTY
 		for (int i = 0; i < this.board.length; i++) {
 			for (int j = 0; j < this.board[i].length; j++) {
-				this.board[i][j] = EMPTY;
+				this.board[i][j] = 0;
 			}
 		}
 
@@ -268,7 +225,6 @@ public class Solver implements SudokuSolver {
 	 * @param args Integers to compare to dimension
 	 */
 	private void checkArgs(int... args) {
-		
 
 		for (int a : args) {
 			if (a > 9 || a < 0) {

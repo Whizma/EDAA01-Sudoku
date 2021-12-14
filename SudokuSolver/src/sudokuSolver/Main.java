@@ -4,8 +4,7 @@ public class Main {
 	
 	// Initializes a solver and a view
 	public static void main(String[] args) {
-		int size = 9; 
-		SudokuSolver solver = new Solver(size);
+		SudokuSolver solver = new Solver();
 		
 		new SudokuView(solver);
 	}
