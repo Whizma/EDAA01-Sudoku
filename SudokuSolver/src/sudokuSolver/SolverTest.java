@@ -20,7 +20,6 @@ class SudokuTests {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		// Create empty Sudoku
 		this.solver = new Solver();
 	}
 
@@ -30,7 +29,7 @@ class SudokuTests {
 	}
 
 	/**
-	 * Tests solving an empty board
+	 * Testar tomt bräde
 	 */
 
 	@Test
@@ -39,18 +38,17 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests inputing and solving invalid input
+	 * Testar olagliga inputs
 	 */
 	
 	@Test
 	void testInvalidInput() {
 		assertThrows(IllegalArgumentException.class, () -> this.solver.add(3, 3, -1), "Should throw error");
-		// assertThrows(IllegalArgumentException.class, () -> this.solver.add(3, 3, 0), "Should throw error");
 		assertThrows(IllegalArgumentException.class, () -> this.solver.add(3, 3, 10), "Should throw error");
 	}
 
 	/**
-	 * Tests solving predefined board given in test case 5
+	 * Testar att lösa testfall 5
 	 */
 
 	@Test
@@ -61,7 +59,7 @@ class SudokuTests {
 	}
 
 	/**
-	 * Tests solving the unsolvable board given in test case 3
+	 * Testar att lösa det olösliga i testfall 3
 	 */
 	
 	@Test
@@ -73,7 +71,7 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests solving an unsolvable board, invalid row
+	 * Testar olösbar bräde om felaktigt row
 	 */
 
 	@Test
@@ -90,7 +88,7 @@ class SudokuTests {
 	}
 
 	/**
-	 * Tests solving an unsolvable board, invalid column
+	 * Testar olösbar bräde om felaktigt kolumn
 	 */
 
 	@Test
@@ -106,7 +104,7 @@ class SudokuTests {
 	}
 
 	/**
-	 * Tests solving an unsolvable board, invalid grid
+	 * Testar olösbar bräde om felaktigt grid
 	 */
 
 	@Test
@@ -122,11 +120,11 @@ class SudokuTests {
 	}
 
 	/**
-	 * Tests the public getNumber & setNumber methods
+	 * Testar get och add
 	 */
 
 	@Test
-	void testGetSetNumber() {
+	void testGetAddNumber() {
 		assertEquals(this.solver.get(0, 0), 0);
 		assertThrows(IllegalArgumentException.class, () -> this.solver.get(10, 10), "Should throw error");
 
@@ -138,11 +136,11 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests the public method clearNumber
+	 * Testar remove funktionen
 	 */
 
 	@Test
-	void testClearNumber() {
+	void testRemove() {
 		this.solver.add(0, 0, 5);
 		assertEquals(this.solver.get(0, 0), 5);
 
@@ -153,11 +151,11 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests the public method isValid 
+	 * Testar isValid
 	 */
 	
 	@Test
-	void testIsAllValid() {
+	void testIsValid() {
 		this.solver.add(0, 0, 1);
 		this.solver.add(4, 1, 1);
 				
@@ -166,11 +164,11 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests the public method clear, with board given in test case 4
+	 * Testar clear
 	 */
 	
 	@Test
-	void testClearAll() {
+	void testClear() {
 		int dim = 9;
 		solver.add(0, 0, 5);
 		solver.add(1, 0, 5);
@@ -186,7 +184,7 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests the public method setMatrix
+	 * Testar setMatrix
 	 */
 	
 	@Test
@@ -197,7 +195,7 @@ class SudokuTests {
 	}
 	
 	/**
-	 * Tests the public method getMatrix
+	 * Testar getMatrix
 	 */
 	
 	@Test
@@ -212,7 +210,7 @@ class SudokuTests {
 			}
 		}
 		
-		// Tests first row once solved
+		// Testar första raden efter lösning
 		this.solver.solve();
 		int[][] solved = this.solver.getMatrix();
 		
