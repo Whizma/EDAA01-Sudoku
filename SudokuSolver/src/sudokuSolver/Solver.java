@@ -31,36 +31,26 @@ public class Solver implements SudokuSolver {
 
 	}
 
-	private boolean isValid(int r, int c, int nbr) {
+	private boolean isValid(int r, int c, int nbr) { // Kollar en ruta om den är valid
 		checkArgs(r, c, nbr);
 
-		// Temporarily remove value so it doesn't clash in checks
+		// Tar bort siffran vi vill testa så att den inte ger possitivt på sig själv
 		int v = this.board[r][c];
 		this.board[r][c] = 0;
 
-		// Check if nbr is valid in all ways
+		// Kolla alla riktningar
 		boolean result = this.checkRow(r, nbr) && this.checkColumn(c, nbr) && this.checkGrid(r, c, nbr);
 
-		// Place it back after checks
+		// Placerar tillbaka siffran efteråt
 		this.board[r][c] = v;
 
 		return result;
 	}
 
-	/**
-	 * Checks if nbr is valid in the row
-	 * 
-	 * @param r   The row to check
-	 * @param c   The column to check
-	 * @param nbr The number to verify
-	 * @return true if valid
-	 */
-
-	private boolean checkRow(int r, int nbr) {
-
-		// Loop all values in row r
+	
+	private boolean checkRow(int r, int nbr) { // Kollar längs raden om valid
+		
 		for (int n : this.board[r]) {
-			// If nbr exists anywhere else in the row, it can't be solved
 			if (nbr == n) {
 				return false;
 			}
@@ -69,21 +59,10 @@ public class Solver implements SudokuSolver {
 		return true;
 	}
 
-	/**
-	 * Checks if nbr is valid in the column
-	 * 
-	 * @param r   The row to check
-	 * @param c   The column to check
-	 * @param nbr The number to verify
-	 * @return true if valid
-	 */
 
-	private boolean checkColumn(int c, int nbr) {
+	private boolean checkColumn(int c, int nbr) { // Kollar längs kolumnen om valid
 
-		// Loop all values in column c
 		for (int i = 0; i < 9; i++) {
-
-			// If nbr exists anywhere else in the column, it can't be solved
 			if (this.board[i][c] == nbr) {
 				return false;
 			}
@@ -92,25 +71,16 @@ public class Solver implements SudokuSolver {
 		return true;
 	}
 
-	/**
-	 * Checks if nbr is valid in the grid
-	 * 
-	 * @param r   The row to check
-	 * @param c   The column to check
-	 * @param nbr The number to verify
-	 * @return true if valid
-	 */
 
-	private boolean checkGrid(int r, int c, int nbr) {
+	private boolean checkGrid(int r, int c, int nbr) { // kollar 3x3 griden om valid
 
-		// Get first row and column of grid
+		// Trick med int för att plocka ut de olika 3x3 gridsen
 		int startRow = (r / 3) * 3;
 		int startCol = (c / 3) * 3;
 
-		// Loop through all rows and columns of grid
+		// Loopa griden och kolla om siffran är valid
 		for (int i = startRow; i < startRow + 3; i++) {
 			for (int j = startCol; j < startCol + 3; j++) {
-				// If nbr exists anywhere else in the grid, it can't be solved
 				if (this.board[i][j] == nbr) {
 					return false;
 				}
@@ -121,8 +91,7 @@ public class Solver implements SudokuSolver {
 	}
 
 	@Override
-	public boolean isValid() {
-		// Loop through all columns and rows and call isValid on every one
+	public boolean isValid() { // Kollar rad, kolumn och grid för varje position på brädet
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
 				if (!isValid(r, c, this.board[r][c])) {
@@ -139,25 +108,24 @@ public class Solver implements SudokuSolver {
 		return solve(0, 0);
 	}
 
-	/**
-	 * Private helper method to recursivley try to solve the sudoku
-	 * 
-	 * @param r The row that is being tested
-	 * @param c The column that is being tested
-	 * @return true if the sudoku is solved
-	 */
-	private boolean solve(int r, int c) {
+	private boolean solve(int r, int c) { // Privat hjälp metod för solve
 
-		// If at last row, start returning true
+		// Om sista raden, börja returnera true
 		if (r == 9) {
 			return true;
 		}
 
+<<<<<<< HEAD
 		// Initialize new row and new column variables
 		int nextRow, nextColumn;
+=======
+		// Variabler för nästa row och kolumn
+		int nR, nC;
+>>>>>>> 9105c6badd7011025e93add9b3292bb700125c96
 
-		// Check if on last column of board
+		// Kolla om sista kolumn
 		if (c < 9 - 1) {
+<<<<<<< HEAD
 			// If not, go to next column
 			nextColumn = c + 1;
 			nextRow = r;
@@ -165,26 +133,44 @@ public class Solver implements SudokuSolver {
 			// If so, restart at next row
 			nextColumn = 0;
 			nextRow = r + 1;
+=======
+			nC = c + 1;
+			nR = r;
+		} else {
+			// Börja på nästa rad om sista kolumnen
+			nC = 0;
+			nR = r + 1;
+>>>>>>> 9105c6badd7011025e93add9b3292bb700125c96
 		}
 
-		// Check if value is not set
+		// Kolla om rutan är tom
 		if (this.board[r][c] == 0) {
 
+<<<<<<< HEAD
 			// Loop through values [1, 2, ..., dim];
 			for (int i = 1; i < 10; i++) {
+=======
+			// Loopa alla värden [0..9]
+			for (int i = 1; i < 9 + 1; i++) {
+>>>>>>> 9105c6badd7011025e93add9b3292bb700125c96
 
-				// Check if value can be placed in board
+				// Kolla om värdet kan placeras
 				if (this.isValid(r, c, i)) {
 
-					// Place value to go to next one
+					// Placera värdet och gå vidare
 					this.board[r][c] = i;
 
+<<<<<<< HEAD
 					// If next one also can be solved, return true
 					if (this.solve(nextRow, nextColumn)) {
+=======
+					// Kan nästa också placeras returna true
+					if (this.solve(nR, nC)) {
+>>>>>>> 9105c6badd7011025e93add9b3292bb700125c96
 						return true;
 					}
 
-					// Else, set it back to Empty
+					// Annars sätt tillbaka till 0
 					this.board[r][c] = 0;
 				}
 			}
@@ -192,14 +178,19 @@ public class Solver implements SudokuSolver {
 			return false;
 		}
 
+<<<<<<< HEAD
 		// If value is set, return if its valid and the next one can be solved
 		return (this.solve(nextRow, nextColumn) && this.isValid(r, c, this.board[r][c]));
+=======
+	
+		// Om värdet sattes, returnera om den är valid samt om nästa kan lösas
+		return this.isValid(r, c, this.board[r][c]) && this.solve(nR, nC);
+>>>>>>> 9105c6badd7011025e93add9b3292bb700125c96
 
 	}
 
 	@Override
 	public void clear() {
-		// Loop through all values and set them to EMPTY
 		for (int i = 0; i < this.board.length; i++) {
 			for (int j = 0; j < this.board[i].length; j++) {
 				this.board[i][j] = 0;
@@ -219,12 +210,8 @@ public class Solver implements SudokuSolver {
 
 	}
 
-	/**
-	 * Helper method to check that all arguments are within the dimension
-	 * 
-	 * @param args Integers to compare to dimension
-	 */
-	private void checkArgs(int... args) {
+	
+	private void checkArgs(int... args) { // Smart sätt att kolla int av olika former
 
 		for (int a : args) {
 			if (a > 9 || a < 0) {
@@ -234,14 +221,8 @@ public class Solver implements SudokuSolver {
 		}
 	}
 
-	/**
-	 * Copies a 2-dimensional array
-	 * 
-	 * @param arr The array to copy
-	 * @return A new copy of the provided array
-	 */
-
-	private int[][] copyArray(int[][] arr) {
+	
+	private int[][] copyArray(int[][] arr) { // Skapar en kopia av en array
 		int l = arr.length;
 		int[][] temp = new int[l][l];
 
