@@ -25,7 +25,7 @@ public class SudokuView {
 	 */
 
 	public SudokuView(SudokuSolver s) {
-		int dim = s.getDimension();
+		int dim = 9;
 		int size = dim * 100;
 		this.solver = s;
 		this.fields = new JTextField[dim][dim];
@@ -43,7 +43,7 @@ public class SudokuView {
 
 	private void createWindow(String title, int width, int height) {
 
-		int dim = this.solver.getDimension();
+		int dim = 9;
 
 		JFrame frame = new JFrame(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -128,7 +128,7 @@ public class SudokuView {
 
 		for (int r = 0; r < dim; r++) {
 			for (int c = 0; c < dim; c++) {
-				int nbr = this.solver.getNumber(r, c);
+				int nbr = this.solver.get(r, c);
 				String val = nbr > 0 ? String.valueOf(nbr) : "";
 				JTextField field = new JTextField();
 
@@ -188,10 +188,10 @@ public class SudokuView {
 						throw new IllegalArgumentException();
 					}
 
-					solver.setNumber(r, c, nbr);
+					solver.add(r, c, nbr);
 
 				} catch (Exception err) {
-					solver.setNumber(r, c, 0);
+					solver.add(r, c, 0);
 					field.setText("");
 				}
 

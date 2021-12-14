@@ -50,12 +50,12 @@ class SudokuTests {
 
 	@Test
 	void testUnsolvableRow() {
-		this.sudoku.setNumber(0, 0, 1);
-		this.sudoku.setNumber(0, 3, 1);
+		this.sudoku.add(0, 0, 1);
+		this.sudoku.add(0, 3, 1);
 
 		assertFalse(this.sudoku.solve());
 
-		this.sudoku.setNumber(0, 3, 0);
+		this.sudoku.add(0, 3, 0);
 
 		assertTrue(this.sudoku.solve());
 	}
@@ -66,12 +66,12 @@ class SudokuTests {
 
 	@Test
 	void testUnsolvableColumn() {
-		this.sudoku.setNumber(0, 0, 1);
-		this.sudoku.setNumber(1, 0, 1);
+		this.sudoku.add(0, 0, 1);
+		this.sudoku.add(1, 0, 1);
 
 		assertFalse(this.sudoku.solve());
 
-		this.sudoku.setNumber(1, 0, 0);
+		this.sudoku.add(1, 0, 0);
 
 		assertTrue(this.sudoku.solve());
 	}
@@ -82,12 +82,12 @@ class SudokuTests {
 
 	@Test
 	void testUnsolvableGrid() {
-		this.sudoku.setNumber(0, 0, 1);
-		this.sudoku.setNumber(0, 1, 1);
+		this.sudoku.add(0, 0, 1);
+		this.sudoku.add(0, 1, 1);
 
 		assertFalse(this.sudoku.solve());
 
-		this.sudoku.setNumber(0, 1, 0);
+		this.sudoku.add(0, 1, 0);
 
 		assertTrue(this.sudoku.solve());
 	}
@@ -98,13 +98,13 @@ class SudokuTests {
 
 	@Test
 	void testGetSetNumber() {
-		assertEquals(this.sudoku.getNumber(0, 0), 0);
-		assertThrows(IllegalArgumentException.class, () -> this.sudoku.getNumber(10, 10), "Should throw error");
+		assertEquals(this.sudoku.get(0, 0), 0);
+		assertThrows(IllegalArgumentException.class, () -> this.sudoku.get(10, 10), "Should throw error");
 
-		this.sudoku.setNumber(0, 0, 1);
+		this.sudoku.add(0, 0, 1);
 		
-		assertThrows(IllegalArgumentException.class, () -> this.sudoku.setNumber(0, 0, 12), "Should throw error");
-		assertEquals(this.sudoku.getNumber(0, 0), 1);
+		assertThrows(IllegalArgumentException.class, () -> this.sudoku.add(0, 0, 12), "Should throw error");
+		assertEquals(this.sudoku.get(0, 0), 1);
 
 	}
 	
@@ -114,13 +114,13 @@ class SudokuTests {
 
 	@Test
 	void testClearNumber() {
-		this.sudoku.setNumber(0, 0, 1);
-		assertEquals(this.sudoku.getNumber(0, 0), 1);
+		this.sudoku.add(0, 0, 1);
+		assertEquals(this.sudoku.get(0, 0), 1);
 
-		this.sudoku.clearNumber(0, 0);
-		assertEquals(this.sudoku.getNumber(0, 0), 0);
+		this.sudoku.remove(0, 0);
+		assertEquals(this.sudoku.get(0, 0), 0);
 		
-		assertThrows(IllegalArgumentException.class, () -> this.sudoku.clearNumber(10, 10), "Should throw error");
+		assertThrows(IllegalArgumentException.class, () -> this.sudoku.remove(10, 10), "Should throw error");
 	}
 	
 	/**
@@ -129,15 +129,15 @@ class SudokuTests {
 	
 	@Test
 	void testIsAllValid() {
-		this.sudoku.setNumber(0, 0, 1);
-		this.sudoku.setNumber(4, 1, 1);
+		this.sudoku.add(0, 0, 1);
+		this.sudoku.add(4, 1, 1);
 		
-		assertTrue(this.sudoku.isValid(0, 0, 1), "IsValid is not correct");
+//		assertTrue(this.sudoku.isValid(0, 0, 1), "IsValid is not correct"); Vi kan inte kontrollera enstaka positioner?
 		
 		assertTrue(this.sudoku.solve());
-		assertTrue(this.sudoku.isAllValid());
+		assertTrue(this.sudoku.isValid());
 		
-		assertThrows(IllegalArgumentException.class, () -> this.sudoku.isValid(10, 10, 10), "Should throw error");
+//		assertThrows(IllegalArgumentException.class, () -> this.sudoku.isValid(10, 10, 10), "Should throw error"); samma som ovan
 	}
 	
 	/**
@@ -146,7 +146,7 @@ class SudokuTests {
 	
 	@Test
 	void testClearAll() {
-		int dim = this.sudoku.getDimension();
+		int dim = 9;
 		
 		assertTrue(this.sudoku.solve());
 		
@@ -155,7 +155,7 @@ class SudokuTests {
 		
 		for(int r = 0; r < dim; r++) {
 			for(int c = 0; c < dim; c++) {
-				assertEquals(this.sudoku.getNumber(r, c), 0);
+				assertEquals(this.sudoku.get(r, c), 0);
 			}
 		}
 	}
@@ -167,8 +167,8 @@ class SudokuTests {
 	@Test
 	void testSetMatrix() {
 		this.sudoku.setMatrix(testBoard);
-		assertEquals(this.sudoku.getNumber(2, 0), 1);
-		assertEquals(this.sudoku.getNumber(0, 2), 8);
+		assertEquals(this.sudoku.get(2, 0), 1);
+		assertEquals(this.sudoku.get(0, 2), 8);
 	}
 	
 	/**
@@ -179,7 +179,7 @@ class SudokuTests {
 	void testGetMatrix() {
 		int[][] empty = this.sudoku.getMatrix();
 		
-		int dim = this.sudoku.getDimension();
+		int dim = 9;
 		
 		for(int r = 0; r < dim; r++) {
 			for(int c = 0; c < dim; c++) {
@@ -202,11 +202,11 @@ class SudokuTests {
 	
 	@Test
 	void testDimension() {
-		assertEquals(this.sudoku.getDimension(), 9);
+//		assertEquals(this.sudoku.getDimension(), 9); Denna blir 9 = 9
 		
-		final int dim = 16;
-		SudokuSolver newDimSudoku = new Solver(dim);
-		assertEquals(newDimSudoku.getDimension(), dim);
+//		final int dim = 16; för 16*16 bräde
+//		SudokuSolver newDimSudoku = new Solver(dim);
+//		assertEquals(newDimSudoku.getDimension(), dim);
 	}
 
 }

@@ -39,7 +39,7 @@ public class Solver implements SudokuSolver {
 	}
 
 	@Override
-	public void setNumber(int r, int c, int nbr) {
+	public void add(int r, int c, int nbr) {
 		checkArgs(r, c, nbr);
 
 		this.board[r][c] = nbr;
@@ -47,22 +47,22 @@ public class Solver implements SudokuSolver {
 	}
 
 	@Override
-	public int getNumber(int r, int c) {
+	public int get(int r, int c) {
 		checkArgs(r, c);
 
 		return this.board[r][c];
 	}
 
 	@Override
-	public void clearNumber(int r, int c) {
+	public void remove(int r, int c) {
 		checkArgs(r, c);
 
 		this.board[r][c] = EMPTY;
 
 	}
 
-	@Override
-	public boolean isValid(int r, int c, int nbr) {
+	
+	private boolean isValid(int r, int c, int nbr) {
 		checkArgs(r, c, nbr);
 
 		// Temporarily remove value so it doesnt clash in checks
@@ -116,7 +116,7 @@ public class Solver implements SudokuSolver {
 	private boolean checkColumn(int c, int nbr) {
 
 		// Loop all values in column c
-		for (int i = 0; i < this.getDimension(); i++) {
+		for (int i = 0; i < 9; i++) {
 
 			// If nbr exists anywhere else in the column, it can't be solved
 			if (this.board[i][c] == nbr) {
@@ -161,10 +161,10 @@ public class Solver implements SudokuSolver {
 	}
 
 	@Override
-	public boolean isAllValid() {
+	public boolean isValid() {
 		// Loop through all columns and rows and call isValid on every one
-		for (int r = 0; r < this.getDimension(); r++) {
-			for (int c = 0; c < this.getDimension(); c++) {
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
 				if (!isValid(r, c, this.board[r][c])) {
 					return false;
 				}
@@ -189,7 +189,7 @@ public class Solver implements SudokuSolver {
 	 */
 	private boolean solve(int r, int c) {
 
-		int dim = this.getDimension();
+		int dim = 9;
 
 		// If at last row, start returning true
 		if (r == dim) {
@@ -262,21 +262,16 @@ public class Solver implements SudokuSolver {
 
 	}
 
-	@Override
-	public int getDimension() {
-		return this.board.length;
-	}
-
 	/**
 	 * Helper method to check that all arguments are within the dimension
 	 * 
 	 * @param args Integers to compare to dimension
 	 */
 	private void checkArgs(int... args) {
-		int dim = this.getDimension();
+		
 
 		for (int a : args) {
-			if (a > dim || a < 0) {
+			if (a > 9 || a < 0) {
 				throw new IllegalArgumentException();
 			}
 
