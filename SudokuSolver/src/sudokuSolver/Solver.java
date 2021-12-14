@@ -154,24 +154,24 @@ public class Solver implements SudokuSolver {
 		}
 
 		// Initialize new row and new column variables
-		int nR, nC;
+		int nextRow, nextColumn;
 
 		// Check if on last column of board
 		if (c < 9 - 1) {
 			// If not, go to next column
-			nC = c + 1;
-			nR = r;
+			nextColumn = c + 1;
+			nextRow = r;
 		} else {
 			// If so, restart at next row
-			nC = 0;
-			nR = r + 1;
+			nextColumn = 0;
+			nextRow = r + 1;
 		}
 
 		// Check if value is not set
 		if (this.board[r][c] == 0) {
 
 			// Loop through values [1, 2, ..., dim];
-			for (int i = 1; i < 9 + 1; i++) {
+			for (int i = 1; i < 10; i++) {
 
 				// Check if value can be placed in board
 				if (this.isValid(r, c, i)) {
@@ -180,7 +180,7 @@ public class Solver implements SudokuSolver {
 					this.board[r][c] = i;
 
 					// If next one also can be solved, return true
-					if (this.solve(nR, nC)) {
+					if (this.solve(nextRow, nextColumn)) {
 						return true;
 					}
 
@@ -193,7 +193,7 @@ public class Solver implements SudokuSolver {
 		}
 
 		// If value is set, return if its valid and the next one can be solved
-		return this.isValid(r, c, this.board[r][c]) && this.solve(nR, nC);
+		return (this.solve(nextRow, nextColumn) && this.isValid(r, c, this.board[r][c]));
 
 	}
 
