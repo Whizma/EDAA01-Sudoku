@@ -1,5 +1,9 @@
 package sudokuSolver;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class Solver implements SudokuSolver {
 
 	private int[][] board;
@@ -89,14 +93,17 @@ public class Solver implements SudokuSolver {
 
 	@Override
 	public boolean isValid() { // Kollar rad, kolumn och grid för varje position på brädet
-		for (int r = 0; r < 9; r++) {
-			for (int c = 0; c < 9; c++) {
-				if (!isValid(r, c, this.board[r][c])) {
-					return false;
-				}
+		Set<String> seen = new HashSet<>();
+		for (int i = 0; i < 9; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				int number = board[i][j];
+				if (number != 0)
+					if (!seen.add(number + " in row " + i)
+							|| !seen.add(number + " in column " + j)
+							|| !seen.add(number + " in block " + i / 3 + "-" + j / 3))
+						return false;
 			}
 		}
-
 		return true;
 	}
 
