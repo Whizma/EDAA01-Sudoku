@@ -40,7 +40,7 @@ public interface SudokuSolver {
 	public boolean isValid();
 
 	/**
-	 * Attempts to solve the sudoku recursively
+	 * Attempts to solve the sudoku
 	 * 
 	 * @return true if sudoku was solved
 	 */

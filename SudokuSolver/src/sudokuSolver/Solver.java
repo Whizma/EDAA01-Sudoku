@@ -92,7 +92,8 @@ public class Solver implements SudokuSolver {
 	}
 
 	@Override
-	public boolean isValid() { // Kollar rad, kolumn och grid för varje position på brädet
+	public boolean isValid() { // Kollar om brädet är giltigt, 
+		// om värdet har påträffats i samma rad, kolumn eller grid returneras false
 		Set<String> seen = new HashSet<>();
 		for (int i = 0; i < 9; ++i) {
 			for (int j = 0; j < 9; ++j) {
